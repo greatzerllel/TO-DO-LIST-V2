@@ -18,7 +18,7 @@ function App() {
 
     const nuevaTarea = {
       id: Date.now(),
-      tareaValue: tarea,
+      tarea: tarea,
       complatado: false
     }
 
@@ -37,6 +37,10 @@ function App() {
     elemento.tarea = tarea
     setListadoTareas(temp)
   }
+  function onBorrarTarea(id){
+      const temp = listadoTareas.filter(item => item.id !== id)
+      setListadoTareas(temp)
+  }
   return (
     <>
       <div className='contenedorPrincipal'>
@@ -54,7 +58,8 @@ function App() {
                   key={tarea.id}
                   id={tarea.id}
                   tarea={tarea}
-                  onActualizarTarea={onActualizarTarea} />
+                  onActualizarTarea={onActualizarTarea} 
+                  onBorrarTarea={onBorrarTarea}/>
               ))
             }
           </div>

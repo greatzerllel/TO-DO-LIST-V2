@@ -1,12 +1,14 @@
 import { useState } from "react"
 
 export function Tarea(props) {
-    const { tarea, onActualizarTarea } = props
+    const { tarea, onActualizarTarea, onBorrarTarea } = props
 
-    const [editando, setEditando] = useState(true)
+    const [editando, setEditando] = useState(false)
+
+    const [estaCompletada, setEstaCompletada] = useState(false)
 
     function ModoEdicionActivado() {
-        const [valor, setValor] = useState(tarea.tareaValue)
+        const [valor, setValor] = useState(tarea.tarea)
 
         function handleChange(e) {
             const text = e.target.value
@@ -33,7 +35,7 @@ export function Tarea(props) {
                 <button className="boton" onClick={handleClick}>
                     GUARDAR
                 </button>
-                <button className="boton botonBorrar">
+                <button className="boton botonBorrar" onClick={() => onBorrarTarea(tarea.id)}>
                     BORRAR
                 </button>
             </>
@@ -43,12 +45,13 @@ export function Tarea(props) {
     function ModoEdicionDesactivado() {
         return (
             <>
-                <span>{tarea.tareaValue}</span>
+                <span className={estaCompletada ? "todoTarea spanSubrayado" : "todoTarea"}
+                onClick={() => setEstaCompletada(!estaCompletada)}>{tarea.tarea}</span>
 
-                <button className="boton botonEditar">
+                <button className="boton botonEditar" onClick={() => setEditando(true)}>
                     ACTUALIZAR
                 </button>
-                <button className="boton botonBorrar">
+                <button className="boton botonBorrar" onClick={() => onBorrarTarea(tarea.id)}>
                     BORRAR
                 </button>
             </>
@@ -62,7 +65,6 @@ export function Tarea(props) {
                 {
                     editando ? <ModoEdicionActivado /> : <ModoEdicionDesactivado />
                 }
-
             </div>
         </>
     )
